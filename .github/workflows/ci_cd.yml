@@ -1,0 +1,49 @@
+name: MLOps Loan Approval CI/CD Pipeline
+
+on:
+  push:
+    branches: [ master, main ]
+  pull_request:
+    branches: [ master, main ]
+
+jobs:
+  build-test-eval:
+    name: Build, Test & Validate Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Generate raw dataset & verify DVC pipeline
+        run: |
+          python data/raw/generate_dataset.py
+          python -m src.ingestion.load_data
+          python -m src.validation.validate_data
+
+      - name: Run Data Transformation & Preprocessing
+        run: |
+          python -m src.transformation.transform_data
+
+      - name: Run Model Training & MLflow Logging
+        run: |
+          python -m src.training.train_model
+
+      - name: Execute Pytest Suite with Coverage
+        run: |
+          pytest tests/ --cov=src --cov=app --cov-report=term-missing --cov-report=xml
+
+      - name: Build Docker Container Image
+        run: |
+          docker build -t loan-approval-api:latest .

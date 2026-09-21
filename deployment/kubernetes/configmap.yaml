@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: loan-api-config
+  namespace: default
+  labels:
+    app: loan-approval-api
+data:
+  APP_ENV: "production"
+  LOG_LEVEL: "INFO"
+  PORT: "8000"
+  MODEL_PATH: "data/processed/model.joblib"
+  PREPROCESSOR_PATH: "data/processed/preprocessor.joblib"
