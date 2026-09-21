@@ -1,0 +1,32 @@
+# Python & Bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+ENV/
+
+# Pytest & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# DVC local storage & cache
+.dvc/cache
+.dvc/tmp
+
+# MLflow temporary data
+mlruns/
+mlflow.db
+
+# OS / Editor specific
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.tmp

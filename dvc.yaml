@@ -1,0 +1,31 @@
+stages:
+  ingest:
+    cmd: py -m src.ingestion.load_data
+    deps:
+      - data/raw/loan_data.csv
+      - src/ingestion/load_data.py
+
+  validate:
+    cmd: py -m src.validation.validate_data
+    deps:
+      - data/raw/loan_data.csv
+      - src/validation/validate_data.py
+
+  transform:
+    cmd: py -m src.transformation.transform_data
+    deps:
+      - data/raw/loan_data.csv
+      - src/transformation/transform_data.py
+    outs:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - data/processed/preprocessor.joblib
+
+  train:
+    cmd: py -m src.training.train_model
+    deps:
+      - data/processed/train.csv
+      - data/processed/test.csv
+      - src/training/train_model.py
+    outs:
+      - data/processed/model.joblib
