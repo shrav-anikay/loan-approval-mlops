@@ -32,3 +32,7 @@ Thumbs.db
 *.tmp
 
 data/processed/
+.dvc - Copy/
+.github - Copy/
+data - Copy/
+deployment - Copy/
