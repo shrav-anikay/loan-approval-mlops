@@ -1,0 +1,68 @@
+schema: '2.0'
+stages:
+  ingest:
+    cmd: py -m src.ingestion.load_data
+    deps:
+    - path: data/raw/loan_data.csv
+      hash: md5
+      md5: 102e8fa1189834be5b004cb971642946
+      size: 41551
+    - path: src/ingestion/load_data.py
+      hash: md5
+      md5: 925d57765828949a28d929aaac2cf8fa
+      size: 1529
+  validate:
+    cmd: py -m src.validation.validate_data
+    deps:
+    - path: data/raw/loan_data.csv
+      hash: md5
+      md5: 102e8fa1189834be5b004cb971642946
+      size: 41551
+    - path: src/validation/validate_data.py
+      hash: md5
+      md5: 8fdb40d9bbada3946d541ce353d3e2a4
+      size: 3879
+  transform:
+    cmd: py -m src.transformation.transform_data
+    deps:
+    - path: data/raw/loan_data.csv
+      hash: md5
+      md5: 102e8fa1189834be5b004cb971642946
+      size: 41551
+    - path: src/transformation/transform_data.py
+      hash: md5
+      md5: 0a52d7b51ae561bc2fa2e0f74f5614e0
+      size: 3864
+    outs:
+    - path: data/processed/preprocessor.joblib
+      hash: md5
+      md5: 60362cee38d708f4b35039c40682d0a8
+      size: 4941
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 88051ac6d600dbdec02adeed6f8919da
+      size: 20120
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 91abee8144a0172a5fb6922eeb855274
+      size: 79380
+  train:
+    cmd: py -m src.training.train_model
+    deps:
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 88051ac6d600dbdec02adeed6f8919da
+      size: 20120
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 91abee8144a0172a5fb6922eeb855274
+      size: 79380
+    - path: src/training/train_model.py
+      hash: md5
+      md5: 53837f06256196f48938c73ef9fd35e7
+      size: 4190
+    outs:
+    - path: data/processed/model.joblib
+      hash: md5
+      md5: 158e79ccc99edce2644eb219a12b7987
+      size: 550665
