@@ -78,4 +78,4 @@ def generate_loan_dataset(output_path: str, num_samples: int = 614, random_state
     return df
 
 if __name__ == "__main__":
-    generate_loan_dataset("c:/Users/shrav/OneDrive/Desktop/vscode/vscode/python/loan-approval-mlops/data/raw/loan_data.csv")
+    generate_loan_dataset("data/raw/loan_data.csv")
